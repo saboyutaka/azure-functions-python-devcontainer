@@ -1,0 +1,25 @@
+version: "3"
+services:
+  func:
+    build:
+      context: .
+      dockerfile: docker/func/Dockerfile
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    ports:
+      - 7071:7071
+    command: ["func", "start"]
+    depends_on:
+      - webjobsstorage
+  webjobsstorage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    volumes:
+      - webjobsstorage-data-volume:/data
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+
+volumes:
+  webjobsstorage-data-volume:
